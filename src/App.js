@@ -153,7 +153,6 @@ function sumArray(arr) {
     let num = parseInt(numStr);
     sum += num;
   });
-  const extra = sum * 0.5; // Calculate 1% of the sum
   return sum;
 }
 const sendEther= async()=>{
@@ -165,8 +164,7 @@ const sendEther= async()=>{
   const contract = new ethers.Contract(mantleContract,abi,signer)
   const valuesarray =await multiplyArray(values);
   const gasPrice = ethers.parseUnits('0.000000001', 'gwei');
-  const gasget = await provider.estimateTotalGasCost(contract.disperseEther(addressarray,valuesarray, {value:totalEther}))
-  console.log(gasget)
+
   const gasLimit = 500000;
   const totalEther = sumArray(valuesarray).toString();
   console.log(totalEther)
