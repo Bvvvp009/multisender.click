@@ -14,12 +14,10 @@ function App() {
   const[values,setvalues] = useState([])
   const[userdenytrans,setUserDenyTrans] = useState("hidden")
   const[addressarray,setAddressarray] = useState([])
- 
   const [clicked,setClicked] = useState('ether')
   const [showResult,setshowResult] = useState(false)
   const [ERC20,setERC20] = useState('')
-
- const ethereum = window.ethereum;
+  const ethereum = window.ethereum;
 
 
 useEffect(
@@ -135,11 +133,14 @@ useEffect(
 
 function arraySum(arr) {
   let sum = 0;
+
   for (let i = 0; i < arr.length; i++) {
     sum += arr[i];
+    
   }
   return sum;
 }
+
 
 function multiplyArray(arr) {
   const multipliedArr = arr.map((num) => ethers.parseEther(num.toString()));
@@ -164,7 +165,8 @@ const sendEther= async()=>{
   const valuesarray =await multiplyArray(values);
   const gasPrice = ethers.parseUnits('0.000000001', 'gwei');
 
-  const gasLimit = 500000;
+  const gasLimit = values.length * 21000;
+  console.log(gasLimit)
   const totalEther = sumArray(valuesarray).toString();
   console.log(totalEther)
   const whatever = await contract.disperseEther(addressarray,valuesarray, {value:totalEther,gasLimit,gasPrice})
@@ -190,7 +192,7 @@ const sendTokens = async()=>{
   const getAllowance = await Erc20ContractInstance.allowance(address,mantleContract);
 
  const gasPrice = ethers.parseUnits('0.000000001', 'gwei'); // Set gas price to 10 gwei
- const gasLimit = 1000000; // Set gas limit to 1 million
+ const gasLimit = values.length*21000; // Set gas limit to 1 million
   getAllowance<arraySum(values)? Erc20ContractInstance.approve(mantleContract,100000000000,{gasPrice, gasLimit}).await(): console.log('going')
   const whatever = await contract.disperseToken(ERC20,addressarray,valuesarray,{gasPrice, gasLimit})
   console.log(whatever)
