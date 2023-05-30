@@ -13,6 +13,7 @@ function App() {
   const [contractbar,showcontractbar] = useState("hidden")
   const[values,setvalues] = useState([])
   const[userdenytrans,setUserDenyTrans] = useState("hidden")
+  const[usersent,setUserSent] = useState("hidden")
   const[addressarray,setAddressarray] = useState([])
   const [clicked,setClicked] = useState('ether')
   const [showResult,setshowResult] = useState(false)
@@ -156,7 +157,7 @@ function sumArray(arr) {
 const sendEther= async()=>{
  
   try{
-    
+   setUserSent("hidden")
   const provider = new ethers.BrowserProvider(window.ethereum)
   const signer = await provider.getSigner()
   const contract = new ethers.Contract(mantleContract,abi,signer)
@@ -165,7 +166,7 @@ const sendEther= async()=>{
   const gasLimit = values.length * 21000;
   const totalEther = sumArray(valuesarray).toString();
   await contract.disperseEther(addressarray,valuesarray, {value:totalEther,gasLimit,gasPrice})
-  
+  setUserSent("visible")
  }catch(err){
   if(err){setUserDenyTrans("visible") }
  }
@@ -175,6 +176,7 @@ const sendEther= async()=>{
 
 const sendTokens = async()=>{
  try {
+   setUserSent("hidden")
   const provider = new ethers.BrowserProvider(window.ethereum)
   const signer = await provider.getSigner()
   const contract = new ethers.Contract(mantleContract,abi,signer)
@@ -186,7 +188,7 @@ const sendTokens = async()=>{
  const gasLimit = values.length*21000; // Set gas limit to 1 million
   getAllowance<arraySum(values)? Erc20ContractInstance.approve(mantleContract,100000000000,{gasPrice, gasLimit}).await():console.log('')
   await contract.disperseToken(ERC20,addressarray,valuesarray,{gasPrice, gasLimit})
- 
+ setUserSent("visible")
  } catch (error) {
   if(error){
     setUserDenyTrans("visible") }
@@ -210,7 +212,7 @@ const sendTokens = async()=>{
       <div className="frame-26 clip-contents">
         <p className="send" style={{fontWeight:"bold"}}>Send</p>
         <div className="frame-28 clip-contents">
-        <button className="ether" onClick={ether} >Ether</button>
+        <button className="ether" onClick={ether} >BIT</button>
         </div>
         <div className="frame-29 clip-contents">
 
@@ -244,6 +246,7 @@ const sendTokens = async()=>{
  : ""
 }
 <p style={{color:"red",visibility:userdenytrans}}>User Denied Transaction....</p>
+<p style={{color:"green",visibility:userSent}}>Sent..</p>
 </div>
 
 <div className="image-container">
