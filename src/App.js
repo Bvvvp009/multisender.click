@@ -13,7 +13,7 @@ function App() {
   const [contractbar,showcontractbar] = useState("hidden")
   const[values,setvalues] = useState([])
   const[userdenytrans,setUserDenyTrans] = useState("hidden")
-  const[usersent,setUserSent] = useState("hidden")
+  const[userSent,setUserSent] = useState("hidden")
   const[addressarray,setAddressarray] = useState([])
   const [clicked,setClicked] = useState('ether')
   const [showResult,setshowResult] = useState(false)
